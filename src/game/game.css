@@ -1,0 +1,14 @@
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  width: 300px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.status {
+  margin-bottom: 10px;
+}

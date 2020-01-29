@@ -1,0 +1,48 @@
+.small-square {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  height: 30px;
+  text-align: center;
+  width: 30px;
+  cursor: auto !important;
+}
+
+.square {
+  position: relative;
+  font: 7vw "Century Gothic", Futura, sans-serif;
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-weight: bold;
+  text-align: center;
+  width: 33.3%;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+}
+
+.square span {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+@media screen and (min-width: 1000px) {
+  .square {
+    font-size: 72px;
+  }
+}
+
+.square:focus, .small-square:focus {
+  outline: none;
+}
+
+.square:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
