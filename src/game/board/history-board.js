@@ -5,29 +5,25 @@ import Square from './square/square';
 class HistoryBoard extends React.Component {
   renderSquare(i) {
     return <Square
+      key={i}
       value={this.props.squares[i]}
       class="small-square"
     />;
   }
 
   render() {
+    let size = 3;
+    let board = [];
+    for (let i = 0; i < size; ++i) {
+      let row = [];
+      for (let j = 0; j < size; ++j) {
+        row.push(this.renderSquare(i * size + j))
+      }
+      board.push(<div key={i} className="board-row">{row}</div>)
+    }
     return (
       <div className="mx-auto">
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {board}
       </div>
     );
   }

@@ -5,6 +5,7 @@ import Square from './square/square';
 class PlayBoard extends React.Component {
   renderSquare(i) {
     return <Square
+      key={i}
       value={this.props.squares[i]}
       onClick={() => this.props.onClick(i)}
       class="square"
@@ -14,23 +15,18 @@ class PlayBoard extends React.Component {
   render() {
     const submit = this.props.submit;
     const reset = this.props.reset;
+    let size = 3;
+    let board = [];
+    for (let i = 0; i < size; ++i) {
+      let row = [];
+      for (let j = 0; j < size; ++j) {
+        row.push(this.renderSquare(i * size + j))
+      }
+      board.push(<div key={i} className="board-row">{row}</div>)
+    }
     return (
       <div className="mx-auto max-width-300">
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {board}
         <div className="row mx-0">
           <div className="mx-auto col-12 col-sm-6 p-1">
             {reset}

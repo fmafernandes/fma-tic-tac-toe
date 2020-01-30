@@ -116,7 +116,10 @@ class Game extends React.Component {
         'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button
+            className={this.state.stepNumber === move ? 'font-weight-bold' : ''}
+            onClick={() => this.jumpTo(move)}>{desc}
+          </button>
         </li>
       )
     })
@@ -139,11 +142,11 @@ class Game extends React.Component {
               <h1 className="text-center">Tic Tac Toe</h1>
             </div>
             <div className="card mx-auto my-2">
-              <div className="card-header bg-darker">
+              <div className="card-header bg-777">
                 <div className="text-center">{status}</div>
               </div>
-              <div className="card-footer row bg-lightgreen">
-                <div className="col-12 col-md-6">
+              <div className="card-footer row bg-333">
+                <div className="col-12 col-md-6 my-1">
                   <PlayBoard
                     squares={current.squares}
                     onClick={(i) => this.handleClick(i)}
@@ -151,7 +154,7 @@ class Game extends React.Component {
                     reset={reset}
                   />
                 </div>
-                <div className="col-12 col-md-6 bg-darker br-radius-5">
+                <div className="col-12 col-md-6 bg-666 br-radius-5 my-1 p-2">
                   <div className="game-info">
                     <div>History:</div>
                     <ol>{moves}</ol>
@@ -161,7 +164,7 @@ class Game extends React.Component {
             </div>
             {
               this.state.games.length > 0 &&
-              <div className="card mx-auto my-2 bg-lightsalmon">
+              <div className="card mx-auto my-2 bg-333">
                 <div className="row p-2">
                   {
                     this.state.games.length > 0 &&

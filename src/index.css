@@ -1,23 +1,28 @@
+body {
+  background-color: #555;
+  color: #DDD;
+}
+
 .card {
   width: 100% !important;
   max-width: 1000px;
 }
 
+.card, .card-header, .card-body, .card-footer{
+  border: none !important;
+}
+
 .row {
-  margin-right: 0!important;
-  margin-left: 0!important;
-}
-
-.bg-lightgreen {
-  background-color: lightgreen;
-}
-
-.bg-lightsalmon {
-  background-color: lightsalmon;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
 }
 
 .bg-darker {
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.bg-lighter {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .br-radius-5 {
@@ -26,4 +31,24 @@
 
 .max-width-300 {
   max-width: 300px;
+}
+
+.bg-333 {
+  background-color: #333;
+}
+
+.bg-444 {
+  background-color: #444;
+}
+
+.bg-555 {
+  background-color: #555;
+}
+
+.bg-666 {
+  background-color: #666;
+}
+
+.bg-777 {
+  background-color: #777;
 }
