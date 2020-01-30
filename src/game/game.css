@@ -12,3 +12,50 @@
 .status {
   margin-bottom: 10px;
 }
+
+.moves-container {
+  overflow: auto;
+  height: 250px;
+}
+
+.moves-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.moves-container::-webkit-scrollbar-track {
+  margin-top: 1px;
+  margin-bottom: 4px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.moves-container::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+  border-radius: 10px;
+}
+
+.move-item {
+  cursor: pointer;
+}
+
+.order-btn {
+  font-size: 24px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border: none;
+  width: 40px;
+  height: 40px;
+  padding: 4px;
+  color: #DDD;
+  outline: 0 !important;
+  border-radius: 10px;
+}
+
+.gradient-up {
+  background-image: linear-gradient(#555, #AAA);
+}
+
+.gradient-down {
+  background-image: linear-gradient(#AAA, #555);
+}

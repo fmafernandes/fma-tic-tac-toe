@@ -38,13 +38,11 @@ class Game extends React.Component {
       });
   }
 
-  /* need to check if there is no more empty squares and declare a draw if needed */
-
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
+    if (calculateWinner(squares).symbol || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -69,15 +67,16 @@ class Game extends React.Component {
     const current = this.state.history[this.state.history.length - 1];
     const winner = calculateWinner(current.squares);
 
-    if (!winner) {
+    if (!(winner.symbol || winner.isDraw)) {
       return;
     }
 
     const game = {
       current: this.state.history[this.state.stepNumber],
       history: this.state.history,
-      gameId: this.state.gameId,
+      gameId: Number(this.state.gameId),
       winner: winner.symbol,
+      isDraw: winner.isDraw,
       winLine: winner.line
     }
 
@@ -126,12 +125,12 @@ class Game extends React.Component {
         'Go to move #' + move + " (" + col + "," + row + ")" :
         'Go to game start';
       return (
-        <li key={move}>
-          <button
-            className={this.state.stepNumber === move ? 'avenir-black' : ''}
+        <div key={move} className={`move-item bg-555 mb-1 br-radius-5 ${this.state.stepNumber === move ? 'bg-333' : ''}`}>
+          <div
+            className={`pl-3 p-1 ${this.state.stepNumber === move ? 'avenir-black' : ''}`}
             onClick={() => this.jumpTo(move)}>{desc}
-          </button>
-        </li>
+          </div>
+        </div>
       )
     })
 
@@ -139,13 +138,19 @@ class Game extends React.Component {
       moves.reverse()
     }
 
-    let status, submit, reset, winLine;
+    let status, submit, reset, winLine, statusColor;
     winLine = [];
-    if (winner) {
+    statusColor = "bg-666";
+    if (winner.symbol) {
       status = 'Winner: ' + winner.symbol;
+      statusColor = 'bg-success';
       submit = <button className="btn btn-success w-100" onClick={() => this.finishGame()}>Submit</button>
       winLine = winner.line;
 
+    } else if (winner.isDraw) {
+      status = 'Draw';
+      statusColor = 'bg-warning';
+      submit = <button className="btn btn-success w-100" onClick={() => this.finishGame()}>Submit</button>
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
@@ -161,9 +166,11 @@ class Game extends React.Component {
             </div>
             <div className="card mx-auto my-2">
               <div className="card-header bg-777">
-                <div className="text-center">{status}</div>
+                <div className={`p-2 br-radius-5 ${statusColor}`}>
+                  <div className='text-center'>{status}</div>
+                </div>
               </div>
-              <div className="card-footer row bg-333">
+              <div className="card-footer row bg-444">
                 <div className="col-12 col-md-6 my-1">
                   <PlayBoard
                     squares={current.squares}
@@ -175,28 +182,33 @@ class Game extends React.Component {
                 </div>
                 <div className="col-12 col-md-6 bg-666 br-radius-5 my-1 p-2">
                   <div className="game-info">
-                    <div className="pl-5 pb-2 font-weight-bold">Moves:</div>
-                    <ul>{moves}</ul>
-                    <button onClick={() => this.revertOrder()}>{isAscending ? 'ascending' : 'descending'}</button>
+                    <div className="pl-3 pb-2 avenir-black">Moves:</div>
+                    <div className="moves-container">{moves}</div>
+                    <div className="text-center">
+                      <button
+                        className={`order-btn bg-444 ${isAscending ? 'gradient-up' : 'gradient-down'}`}
+                        onClick={() => this.revertOrder()}>{isAscending ? '⇅' : '⇵'}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             {
               this.state.games.length > 0 &&
-              <div className="card mx-auto my-2 bg-333">
+              <div className="card mx-auto my-2 bg-444">
                 <div className="row p-2">
                   {
                     this.state.games.length > 0 &&
                     this.state.games.map((games, gameId) => {
                       return (
-                        <div key={gameId} className="p-2 text-center">
+                        <div key={games.gameId} className="p-2 text-center">
                           <div>Game #{games.gameId}</div>
                           <HistoryBoard
                             winner={games.winLine}
                             squares={games.current.squares}
                           />
-                          <div>Winner: {games.winner}</div>
+                          <div>{games.winner ? <span><span className="text-success">Winner:</span> {games.winner}</span> : <span className="text-warning">Draw</span>}</div>
                         </div>
                       );
                     })
@@ -227,12 +239,26 @@ function calculateWinner(squares) {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       let winner = {
         'symbol': squares[a],
-        'line': lines[i]
+        'line': lines[i],
+        'isDraw': false
       }
       return winner;
     }
   }
-  return null;
+
+  let isDraw = true;
+  for (let i = 0; i < squares.length; i++) {
+    if (squares[i] === null) {
+      isDraw = false;
+      break;
+    }
+  }
+
+  return {
+    symbol: null,
+    line: null,
+    isDraw: isDraw,
+  };
 }
 
 export default Game;
