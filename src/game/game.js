@@ -19,7 +19,8 @@ class Game extends React.Component {
       xIsNext: true,
       games: [],
       gameId: localStorage.getItem('gameId'),
-      historySteps: Array(9).fill(0)
+      historySteps: Array(9).fill(0),
+      isAscending: true
     };
   }
 
@@ -102,15 +103,24 @@ class Game extends React.Component {
     });
   }
 
+  revertOrder() {
+    this.setState({
+      isAscending: !this.state.isAscending
+    })
+  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
+    const isAscending = this.state.isAscending;
+
     const moves = history.map((step, move) => {
       const lastPlay = step.lastPlay;
       const col = (lastPlay % 3) + 1;
       const row = Math.floor(lastPlay / 3) + 1;
+
       const desc = move ?
         'Go to move #' + move + " (" + col + "," + row + ")" :
         'Go to game start';
@@ -123,6 +133,10 @@ class Game extends React.Component {
         </li>
       )
     })
+
+    if (!isAscending) {
+      moves.reverse()
+    }
 
     let status, submit, reset;
     if (winner) {
@@ -156,8 +170,9 @@ class Game extends React.Component {
                 </div>
                 <div className="col-12 col-md-6 bg-666 br-radius-5 my-1 p-2">
                   <div className="game-info">
-                    <div>History:</div>
-                    <ol>{moves}</ol>
+                    <div class="pl-5 pb-2 font-weight-bold">Moves:</div>
+                    <ul>{moves}</ul>
+                    <button onClick={() => this.revertOrder()}>{ isAscending ? 'ascending' : 'descending' }</button>
                   </div>
                 </div>
               </div>
