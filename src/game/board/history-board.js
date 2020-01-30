@@ -4,10 +4,12 @@ import Square from './square/square';
 
 class HistoryBoard extends React.Component {
   renderSquare(i) {
+    const winLine = this.props.winner;
     return <Square
       key={i}
       value={this.props.squares[i]}
       class="small-square"
+      color={winLine && winLine.includes(i) ? "highlight" : ""}
     />;
   }
 

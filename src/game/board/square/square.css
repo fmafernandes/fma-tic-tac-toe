@@ -46,3 +46,7 @@
   display: block;
   padding-bottom: 100%;
 }
+
+.highlight {
+  color: steelblue;
+}

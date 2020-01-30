@@ -1,6 +1,31 @@
 body {
   background-color: #555;
   color: #DDD;
+  font-family: AvenirMedium;
+}
+
+@font-face {
+  font-family: AvenirBook;
+  src: url("assets/AvenirLTStd-Book.otf") format("opentype");
+}
+
+@font-face {
+  font-family: AvenirMedium;
+  src: url("assets/AvenirLTStd-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: AvenirRoman;
+  src: url("assets/AvenirLTStd-Roman.otf") format("opentype");
+}
+
+@font-face {
+  font-family: AvenirBlack;
+  src: url("assets/AvenirLTStd-Black.otf") format("opentype");
+}
+
+.avenir-black {
+  font-family: AvenirBlack !important;
 }
 
 .card {
@@ -8,7 +33,7 @@ body {
   max-width: 1000px;
 }
 
-.card, .card-header, .card-body, .card-footer{
+.card, .card-header, .card-body, .card-footer {
   border: none !important;
 }
 

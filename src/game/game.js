@@ -77,7 +77,8 @@ class Game extends React.Component {
       current: this.state.history[this.state.stepNumber],
       history: this.state.history,
       gameId: this.state.gameId,
-      winner: winner,
+      winner: winner.symbol,
+      winLine: winner.line
     }
 
     db.table('games')
@@ -127,7 +128,7 @@ class Game extends React.Component {
       return (
         <li key={move}>
           <button
-            className={this.state.stepNumber === move ? 'font-weight-bold' : ''}
+            className={this.state.stepNumber === move ? 'avenir-black' : ''}
             onClick={() => this.jumpTo(move)}>{desc}
           </button>
         </li>
@@ -138,10 +139,13 @@ class Game extends React.Component {
       moves.reverse()
     }
 
-    let status, submit, reset;
+    let status, submit, reset, winLine;
+    winLine = [];
     if (winner) {
-      status = 'Winner: ' + winner;
+      status = 'Winner: ' + winner.symbol;
       submit = <button className="btn btn-success w-100" onClick={() => this.finishGame()}>Submit</button>
+      winLine = winner.line;
+
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
@@ -163,6 +167,7 @@ class Game extends React.Component {
                 <div className="col-12 col-md-6 my-1">
                   <PlayBoard
                     squares={current.squares}
+                    winner={winLine}
                     onClick={(i) => this.handleClick(i)}
                     submit={submit}
                     reset={reset}
@@ -170,9 +175,9 @@ class Game extends React.Component {
                 </div>
                 <div className="col-12 col-md-6 bg-666 br-radius-5 my-1 p-2">
                   <div className="game-info">
-                    <div class="pl-5 pb-2 font-weight-bold">Moves:</div>
+                    <div className="pl-5 pb-2 font-weight-bold">Moves:</div>
                     <ul>{moves}</ul>
-                    <button onClick={() => this.revertOrder()}>{ isAscending ? 'ascending' : 'descending' }</button>
+                    <button onClick={() => this.revertOrder()}>{isAscending ? 'ascending' : 'descending'}</button>
                   </div>
                 </div>
               </div>
@@ -188,6 +193,7 @@ class Game extends React.Component {
                         <div key={gameId} className="p-2 text-center">
                           <div>Game #{games.gameId}</div>
                           <HistoryBoard
+                            winner={games.winLine}
                             squares={games.current.squares}
                           />
                           <div>Winner: {games.winner}</div>
@@ -219,7 +225,11 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      let winner = {
+        'symbol': squares[a],
+        'line': lines[i]
+      }
+      return winner;
     }
   }
   return null;

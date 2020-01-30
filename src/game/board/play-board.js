@@ -4,11 +4,13 @@ import Square from './square/square';
 
 class PlayBoard extends React.Component {
   renderSquare(i) {
+    const winLine = this.props.winner;
     return <Square
       key={i}
       value={this.props.squares[i]}
       onClick={() => this.props.onClick(i)}
       class="square"
+      color={winLine && winLine.includes(i) ? "highlight" : ""}
     />;
   }
 
