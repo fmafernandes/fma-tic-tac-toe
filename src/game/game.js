@@ -10,6 +10,9 @@ class Game extends React.Component {
     if (localStorage.getItem('gameId') === null) {
       localStorage.setItem('gameId', 1)
     }
+    if (localStorage.getItem('isAscending') === null) {
+      localStorage.setItem('isAscending', true)
+    }
     this.state = {
       history: [{
         squares: Array(9).fill(null),
@@ -20,7 +23,7 @@ class Game extends React.Component {
       games: [],
       gameId: localStorage.getItem('gameId'),
       historySteps: Array(9).fill(0),
-      isAscending: true
+      isAscending: JSON.parse(localStorage.getItem('isAscending'))
     };
   }
 
@@ -104,9 +107,11 @@ class Game extends React.Component {
   }
 
   revertOrder() {
+    const ascending = !this.state.isAscending;
     this.setState({
-      isAscending: !this.state.isAscending
+      isAscending: ascending
     })
+    localStorage.setItem('isAscending', ascending);
   }
 
   render() {
