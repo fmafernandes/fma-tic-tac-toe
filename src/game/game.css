@@ -59,3 +59,26 @@
 .gradient-down {
   background-image: linear-gradient(#AAA, #555);
 }
+
+.history-row {
+  width: 90px;
+}
+
+.history-btn {
+  margin-top: 3px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  border: none;
+  border-radius: 50%;
+}
+
+.history-btn:focus {
+  outline: none;
+}
+
+.history-btn:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}

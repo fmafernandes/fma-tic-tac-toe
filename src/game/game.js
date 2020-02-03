@@ -81,6 +81,37 @@ class Game extends React.Component {
   }
 
   /**
+   * Allows the user to browse all the steps of the chosen game
+   * @param {number} id - ID that uniquely identifies the game
+   * @param {number} step - Identifier of which step should be browsed
+   */
+  historyJumpTo(id, step) {
+    const games = this.state.games.slice();
+    const currentSteps = this.state.historySteps.slice();
+    const currStep = currentSteps[id];
+    const length = games[id].history.length;
+    let current, nextStep;
+    if (step === 0) {
+      nextStep = step;
+      current = games[id].history[nextStep];
+      currentSteps[id] = nextStep;
+    } else if (step === 1) {
+      nextStep = (currStep >= 0 && currStep < length - 1) ? currentSteps[id] + 1 : currentSteps[id];
+    } else if (step === -1) {
+      nextStep = (currStep > 0 && currStep <= length - 1) ? currentSteps[id] - 1 : currentSteps[id];
+    }
+    current = games[id].history[nextStep];
+    currentSteps[id] = nextStep;
+    games[id].current = current;
+    this.setState({
+      historySteps: currentSteps
+    })
+    this.setState({
+      games: games
+    })
+  }
+
+  /**
    * Adds a game to IndexedDB once it is finished and submitted and increments the game ID
    */
   finishGame() {
@@ -236,6 +267,21 @@ class Game extends React.Component {
                             winner={games.winLine}
                             squares={games.current.squares}
                           />
+                          <div className="row history-row">
+                            <div className="col-4 p-0">
+                              <button className="history-btn" onClick={() => this.historyJumpTo(gameId, 0)}>●</button>
+                            </div>
+                            <div className="col-4 p-0">
+                              {this.state.historySteps[gameId] > 0 &&
+                                <button className="history-btn" onClick={() => this.historyJumpTo(gameId, -1)}>❮</button>
+                              }
+                            </div>
+                            <div className="col-4 p-0">
+                              {this.state.historySteps[gameId] < games.history.length - 1 &&
+                                <button className="history-btn" onClick={() => this.historyJumpTo(gameId, 1)}>❯</button>
+                              }
+                            </div>
+                          </div>
                           <div>{games.winner ? <span><span className="text-success">Winner:</span> {games.winner}</span> : <span className="text-warning">Draw</span>}</div>
                         </div>
                       );
