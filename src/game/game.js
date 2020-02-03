@@ -69,6 +69,14 @@ class Game extends React.Component {
     });
   }
 
+  handleKeyDown(e, gameId) {
+    if (e.keyCode === 37) {
+      this.historyJumpTo(gameId, -1)
+    } else if (e.keyCode === 39) {
+      this.historyJumpTo(gameId, 1)
+    }
+  }
+
   /**
    * Allows the user to go to the chosen step of the game
    * @param {*} step - Step of the game
@@ -261,24 +269,24 @@ class Game extends React.Component {
                     this.state.games.length > 0 &&
                     this.state.games.map((games, gameId) => {
                       return (
-                        <div key={games.gameId} className="p-2 text-center">
+                        <div key={games.gameId} className="p-2 text-center" onKeyDown={(e) => this.handleKeyDown(e, gameId)}>
                           <div>Game #{games.gameId}</div>
                           <HistoryBoard
                             winner={games.winLine}
                             squares={games.current.squares}
                           />
                           <div className="row history-row">
-                            <div className="col-4 p-0">
-                              <button className="history-btn" onClick={() => this.historyJumpTo(gameId, 0)}>●</button>
+                            <div className="col-4 p-0 history-btn-container" tabIndex="0">
+                              <div className="history-btn" onClick={() => this.historyJumpTo(gameId, 0)}>●</div>
                             </div>
-                            <div className="col-4 p-0">
+                            <div className="col-4 p-0 history-btn-container" tabIndex="0">
                               {this.state.historySteps[gameId] > 0 &&
-                                <button className="history-btn" onClick={() => this.historyJumpTo(gameId, -1)}>❮</button>
+                                <div className="history-btn" onClick={() => this.historyJumpTo(gameId, -1)}>❮</div>
                               }
                             </div>
-                            <div className="col-4 p-0">
+                            <div className="col-4 p-0 history-btn-container" tabIndex="0">
                               {this.state.historySteps[gameId] < games.history.length - 1 &&
-                                <button className="history-btn" onClick={() => this.historyJumpTo(gameId, 1)}>❯</button>
+                                <div className="history-btn" onClick={() => this.historyJumpTo(gameId, 1)}>❯</div>
                               }
                             </div>
                           </div>
