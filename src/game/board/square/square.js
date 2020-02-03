@@ -1,6 +1,10 @@
 import React from 'react';
 import './square.css';
 
+/**
+ * Individual square for the board
+ * @param {*} props - Properties from parent component
+ */
 function Square(props) {
   return (
     <button

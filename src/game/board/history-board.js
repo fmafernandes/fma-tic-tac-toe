@@ -2,7 +2,14 @@ import React from 'react';
 import './board.css';
 import Square from './square/square';
 
+/**
+ * Board intended for display of previous results
+ */
 class HistoryBoard extends React.Component {
+  /**
+   * Creates individual square for the History board with the given attributes
+   * @param {number} i - Index that uniquely identifies each square of the board
+   */
   renderSquare(i) {
     const winLine = this.props.winner;
     return <Square

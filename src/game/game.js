@@ -4,6 +4,9 @@ import db from '../db.js';
 import PlayBoard from './board/play-board';
 import HistoryBoard from './board/history-board';
 
+/**
+ * Main component for the game
+ */
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -27,6 +30,9 @@ class Game extends React.Component {
     };
   }
 
+  /**
+   * Retrieve previous games played from IndexedDB
+   */
   componentDidMount() {
     db.table('games')
       .toArray()
@@ -41,6 +47,10 @@ class Game extends React.Component {
       });
   }
 
+  /**
+   * Handles the user click on each square and fills them accordingly
+   * @param {*} i - Index that uniquely identifies each square of the board
+   */
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
@@ -59,6 +69,10 @@ class Game extends React.Component {
     });
   }
 
+  /**
+   * Allows the user to go to the chosen step of the game
+   * @param {*} step - Step of the game
+   */
   jumpTo(step) {
     this.setState({
       stepNumber: step,
@@ -66,6 +80,9 @@ class Game extends React.Component {
     })
   }
 
+  /**
+   * Adds a game to IndexedDB once it is finished and submitted and increments the game ID
+   */
   finishGame() {
     const current = this.state.history[this.state.history.length - 1];
     const winner = calculateWinner(current.squares);
@@ -94,6 +111,9 @@ class Game extends React.Component {
     this.resetGame();
   }
 
+  /**
+   * Resets the board, clearing all squares from any input previously given by the user
+   */
   resetGame() {
     this.setState({
       history: [{
@@ -106,6 +126,9 @@ class Game extends React.Component {
     });
   }
 
+  /**
+   * Reverts the order of the items on the list of moves
+   */
   revertOrder() {
     const ascending = !this.state.isAscending;
     this.setState({
@@ -228,6 +251,10 @@ class Game extends React.Component {
   }
 }
 
+/**
+ * Checks the state of the board and verifies if there's a winner or a draw
+ * @param {Array} squares - Array that represents the current state of the board
+ */
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],

@@ -2,7 +2,14 @@ import React from 'react';
 import './board.css';
 import Square from './square/square';
 
+/**
+ * Board intended for user interaction and gameplay purposes
+ */
 class PlayBoard extends React.Component {
+  /**
+   * Creates individual square for the Play board with the given attributes
+   * @param {*} i - Index that uniquely identifies each square of the board
+   */
   renderSquare(i) {
     const winLine = this.props.winner;
     return <Square
