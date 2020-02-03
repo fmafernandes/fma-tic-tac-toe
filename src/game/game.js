@@ -69,11 +69,35 @@ class Game extends React.Component {
     });
   }
 
-  handleKeyDown(e, gameId) {
+  /**
+   * Handles arrow key events related to browsing saved games' steps
+   * @param {*} e - Event object
+   * @param {*} gameId - ID that uniquely identifies the game to be browsed through
+   */
+  handleHistoryKeyDown(e, gameId) {
     if (e.keyCode === 37) {
       this.historyJumpTo(gameId, -1)
     } else if (e.keyCode === 39) {
       this.historyJumpTo(gameId, 1)
+    }
+  }
+
+  /**
+   * Handles arrow key events related to browsing the list of moves of current game
+   * @param {*} e - Event object
+   */
+  handleMovesKeyDown(e) {
+    e.preventDefault();
+
+    let cond1 = this.state.isAscending ? 40 : 38;
+    let cond2 = this.state.isAscending ? 38 : 40;
+
+    if (e.keyCode === cond1) {
+      if (this.state.stepNumber >= 0 && this.state.stepNumber < this.state.history.length - 1)
+        this.jumpTo(this.state.stepNumber + 1)
+    } else if (e.keyCode === cond2) {
+      if (this.state.stepNumber > 0 && this.state.stepNumber <= this.state.history.length - 1)
+        this.jumpTo(this.state.stepNumber - 1)
     }
   }
 
@@ -194,6 +218,7 @@ class Game extends React.Component {
       return (
         <div key={move} className={`move-item bg-555 mb-1 br-radius-5 ${this.state.stepNumber === move ? 'bg-333' : ''}`}>
           <div
+            tabIndex="0"
             className={`pl-3 p-1 ${this.state.stepNumber === move ? 'avenir-black' : ''}`}
             onClick={() => this.jumpTo(move)}>{desc}
           </div>
@@ -247,7 +272,7 @@ class Game extends React.Component {
                     reset={reset}
                   />
                 </div>
-                <div className="col-12 col-md-6 bg-666 br-radius-5 my-1 p-2">
+                <div className="col-12 col-md-6 bg-666 br-radius-5 my-1 p-2" onKeyDown={(e) => this.handleMovesKeyDown(e)}>
                   <div className="game-info">
                     <div className="pl-3 pb-2 avenir-black">Moves:</div>
                     <div className="moves-container">{moves}</div>
@@ -269,7 +294,7 @@ class Game extends React.Component {
                     this.state.games.length > 0 &&
                     this.state.games.map((games, gameId) => {
                       return (
-                        <div key={games.gameId} className="p-2 text-center" onKeyDown={(e) => this.handleKeyDown(e, gameId)}>
+                        <div key={games.gameId} className="p-2 text-center" onKeyDown={(e) => this.handleHistoryKeyDown(e, gameId)}>
                           <div>Game #{games.gameId}</div>
                           <HistoryBoard
                             winner={games.winLine}
