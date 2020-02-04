@@ -88,3 +88,15 @@
 .history-btn:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+.link-color {
+  color: white;
+}
+
+.link-color:hover {
+  color: rgba(255, 255, 255, 0.5)
+}
+
+.active-link-color, .active-link-color:hover {
+  color: yellowgreen;
+}
